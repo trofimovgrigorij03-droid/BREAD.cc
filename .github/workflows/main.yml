@@ -1,0 +1,25 @@
+name: build
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Настройка 32-битного компилятора MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86
+
+      - name: Сборка
+        shell: cmd
+        run: call build.bat
+
+      - name: Сохранить exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hlebushek_Injector
+          path: bin/Hlebushek_Injector.exe
