@@ -1,16 +1,9 @@
 // Hlebushek Mod Menu v2 — DLL, загружается в процесс игры (Dizzy.exe v0.5, 32 бит).
-// Всё автоматически: DLL сама находит нужные места в коде игры (по разбору exe), ставит хуки и показывает меню.
-//
-//  Игрок   : бессмертие, бесконечные жизни, вечная энергия, множитель очков, быстрые действия
-//  Мир     : скорость игры (+ «бег» по Shift), погода (снег, дождь, гроза, туман, светлячки, листопад)
-//  Эффекты : фильтры картинки, X-Ray (контуры + подсветка теней), виньетка, сканлайны
-//  Меню    : цвет акцента, тема, прозрачность, размер, положение
-// Погода и эффекты рисуются прямо в кадр игры: перехватываются GDI-функции вывода кадра
-// SetDIBitsToDevice / StretchDIBits через таблицу импорта exe (IAT).
-// Клавиши: Insert меню | F1 бессмертие | F2 жизни | F3 энергия | F4 все эффекты | F5 сменить погоду
+// ...
 #define UNICODE
 #define _UNICODE
 #define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 #include <mmsystem.h>
 #include <tlhelp32.h>
@@ -18,11 +11,14 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <cwchar>
 #include <cmath>
 #include <string>
 #include <vector>
 #include <algorithm>
+
+// Безопасные обёртки: не зависят от макросов min/max из windows.h
+template<class T> static inline T Max(T a, T b) { return a > b ? a : b; }
+template<class T> static inline T Min(T a, T b) { return a < b ? a : b; }
 
 #ifdef _WIN64
 #error "Игра 32-битная: собирай DLL как 32-bit (x86)"
